@@ -44,11 +44,37 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+    testOptions {
+        unitTests.includeAndroidResources = true
+    }
 }
 
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.10.0'
+    //dependencias adrian, FALLA mi test si se incluyen
+    //quitar coment pa q se corrijan los import
+    /*implementation 'net.sf.extjwnl:extjwnl:2.0.1'
+    implementation 'net.sf.extjwnl:extjwnl-data-wn31:1.2'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation libs.junit.junit
+    implementation libs.androidx.junit
+    implementation libs.androidx.uiautomator
+    testImplementation 'junit:junit:4.12'*/
+    //
+    testImplementation libs.androidx.junit
+    testImplementation libs.androidx.rules
+    testImplementation libs.androidx.espresso.core
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test:rules:1.5.0'
+    androidTestImplementation 'androidx.test:runner:1.5.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.5.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.5.1'
+    androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
+    //otra de adrian
+    androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
+    //
     implementation libs.androidx.core.ktx
     implementation libs.androidx.lifecycle.runtime.ktx
     implementation libs.androidx.activity.compose

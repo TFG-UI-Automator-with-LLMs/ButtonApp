@@ -14,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
     private Button buttonSaveText;
     private SharedPreferences sharedPreferences;
 
-    private static final String PREFS_NAME = "MyPrefs";
+    public static final String PREFS_NAME = "MyPrefs";
     private static final String TEXT_KEY = "savedText";
 
     protected void onCreate(Bundle savedInstancesState) {
