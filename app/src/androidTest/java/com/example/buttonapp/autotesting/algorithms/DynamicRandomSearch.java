@@ -2,24 +2,22 @@ package com.example.buttonapp.autotesting.algorithms;
 
 import android.util.Log;
 
-import androidx.test.uiautomator.UiDevice;
-import androidx.test.uiautomator.UiObject;
-import androidx.test.uiautomator.UiObjectNotFoundException;
-
-import com.example.buttonapp.autotesting.TestCase;
-import com.example.buttonapp.autotesting.inagraph.StartAppAction;
-import com.example.buttonapp.autotesting.inagraph.actions.Action;
-import com.example.buttonapp.autotesting.inagraph.actions.ActionFactory;
-import com.example.buttonapp.autotesting.util.WriterUtil;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import androidx.test.uiautomator.UiDevice;
+import androidx.test.uiautomator.UiObject;
+import androidx.test.uiautomator.UiObjectNotFoundException;
+import com.example.buttonapp.autotesting.TestCase;
 import com.example.buttonapp.autotesting.inagraph.CloseAppAction;
+import com.example.buttonapp.autotesting.inagraph.StartAppAction;
+import com.example.buttonapp.autotesting.inagraph.actions.Action;
+import com.example.buttonapp.autotesting.inagraph.actions.ActionFactory;
 import com.example.buttonapp.autotesting.objectivefunctions.dynamic.DynamicObjectiveFunction;
+import com.example.buttonapp.autotesting.util.WriterUtil;
 
 public class DynamicRandomSearch {
     DynamicObjectiveFunction objective;
@@ -65,7 +63,7 @@ public class DynamicRandomSearch {
             }
             startApp(appPackage);
             testCaseActions = new ArrayList<>();
-            availableActions = createAction(device, seeds.nextInt());
+            availableActions = createAction(device, seeds.nextLong());
             while(testCaseActions.size()<actionsLength && availableActions.size() > 0){
                 chosenAction=availableActions.get(getRandom().nextInt(availableActions.size()));
                 testCaseActions.add(chosenAction);
@@ -78,7 +76,7 @@ public class DynamicRandomSearch {
                 if(!appName.equals(appPackage)){
                     break;
                 }
-                availableActions = createAction(device, seeds.nextInt());
+                availableActions = createAction(device, seeds.nextLong());
             }
             Log.d("TFG", "Eval: " + eval);
             if(eval>currentBestEval){
@@ -105,10 +103,10 @@ public class DynamicRandomSearch {
                 writerUtil.write(a.toString());
             }
         }
-        return new TestCase(appPackage, Collections.EMPTY_SET,beforeActions,testActions,afterActions);
+        return new TestCase(appPackage, Collections.EMPTY_SET,beforeActions,testActions,afterActions, new ArrayList<>(), new ArrayList<>());
     }
 
-    private List<Action> createAction(UiDevice device, Integer seed) {
+    private List<Action> createAction(UiDevice device, Long seed) {
         Map<UiObject, Action> actions;
         actions = ActionFactory.createActions(device, seed);
         return new ArrayList<>(actions.values());
@@ -141,11 +139,11 @@ public class DynamicRandomSearch {
     }
 
     /**public boolean isSameNode(UiDevice device, List<Action> availableActions, Random random) {
-        boolean result = true;
-        List<Action> actions = new ArrayList<>(ActionFactory.createActions(device, random).values());
-        for (int i = 0; i < actions.size() && result; i++)
-            result = (result && availableActions.contains(actions.get(i)));
-        result = (result && availableActions.size() == (actions.size()));
-        return result;
-    }**/
+     boolean result = true;
+     List<Action> actions = new ArrayList<>(ActionFactory.createActions(device, random).values());
+     for (int i = 0; i < actions.size() && result; i++)
+     result = (result && availableActions.contains(actions.get(i)));
+     result = (result && availableActions.size() == (actions.size()));
+     return result;
+     }**/
 }

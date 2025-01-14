@@ -91,7 +91,7 @@ public class DiversitySearch {
         Action chosenAction;
         startApp(appPackage);
         testCaseActions = new ArrayList<>();
-        availableActions = createAction(device, seeds.nextInt());
+        availableActions = createAction(device, seeds.nextLong());
         WriterUtil writerUtil = null;
         if(saveAllTestCases){
             writerUtil = new WriterUtil();
@@ -106,13 +106,13 @@ public class DiversitySearch {
             if(saveAllTestCases){
                 writerUtil.write(chosenAction.toString());
             }
-            availableActions = createAction(device, seeds.nextInt());
+            availableActions = createAction(device, seeds.nextLong());
         }
         closeApp(appPackage);
-        return new Tuple<>(new TestCase(appPackage, Collections.EMPTY_SET, beforeActions, testCaseActions, afterActions), seed);
+        return new Tuple<>(new TestCase(appPackage, Collections.EMPTY_SET, beforeActions, testCaseActions, afterActions, new ArrayList<>(), new ArrayList<>()), seed);
     }
 
-    private List<Action> createAction(UiDevice device, Integer seed) {
+    private List<Action> createAction(UiDevice device, Long seed) {
         Map<UiObject, Action> actions;
         actions = ActionFactory.createActions(device, seed);
         return new ArrayList<>(actions.values());

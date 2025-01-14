@@ -15,30 +15,30 @@ import java.util.logging.Logger;
 public class DictionaryBasedValueGenerator {
     public static final int DEFAULT_NUMBER_OF_WORDS=3;
     public static final String[] IGNORED_WORDS= {"is","of","and","where","this","that"};
-    
-   
+
+
     private Dictionary dict;
     public static POS defaultPOS=null;
     protected int maxWords;
     protected int minWords;
     protected Random randomGenerator;
-    
+
 
     public DictionaryBasedValueGenerator()
     {
-        this(DEFAULT_NUMBER_OF_WORDS,DEFAULT_NUMBER_OF_WORDS, new Random().nextInt());
+        this(DEFAULT_NUMBER_OF_WORDS,DEFAULT_NUMBER_OF_WORDS, new Random().nextLong());
     }
-    public DictionaryBasedValueGenerator(int words, Integer seed) {
+    public DictionaryBasedValueGenerator(int words, Long seed) {
         this(words,words, seed);
-    }    
-    
-    
-    
-    public DictionaryBasedValueGenerator(int minWords,int maxWords, Integer seed) {
+    }
+
+
+
+    public DictionaryBasedValueGenerator(int minWords,int maxWords, Long seed) {
         this.minWords=minWords;
         this.maxWords = maxWords;
         this.randomGenerator = new Random(seed);
-        
+
     }
 
     //@Override
@@ -50,10 +50,10 @@ public class DictionaryBasedValueGenerator {
         int nWords=minWords;
         if(randomGenerator==null)
             randomGenerator=new Random();
-        if(minWords!=maxWords)            
+        if(minWords!=maxWords)
             nWords+=randomGenerator.nextInt(maxWords-minWords);
-        try {            
-            if(dict==null)            
+        try {
+            if(dict==null)
                 dict=Dictionary.getDefaultResourceInstance();
             for(int i=0;i<nWords;i++){
                 if(defaultPOS==null)
@@ -88,9 +88,9 @@ public class DictionaryBasedValueGenerator {
     public void setMinWords(int minWords) {
         this.minWords = minWords;
     }
-    
+
     @SuppressWarnings("unlikely-arg-type")
-	private boolean shouldBeIgnored(String word)
+    private boolean shouldBeIgnored(String word)
     {
         boolean result=false;
         for(int i=0;i<IGNORED_WORDS.length && !result;i++)

@@ -5,13 +5,16 @@
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="MainActivityTest">
+      <SelectionState runConfigName="ButtonAppTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="testSaveAndChangeText()">
+      <SelectionState runConfigName="testSimpleAppCrash()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="testSimpleApp()">
+      <SelectionState runConfigName="ReadTestCase">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="read()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

@@ -41,7 +41,7 @@ android {
     }
     packaging {
         resources {
-            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+            excludes += '/META-INF/{AL2.0,LGPL2.1,spring.*,LICENSE.txt,NOTICE.txt}'
         }
     }
     testOptions {
@@ -50,10 +50,8 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
     implementation 'com.google.android.material:material:1.10.0'
-    //dependencias adrian, FALLA mi test si se incluyen
-    //quitar coment pa q se corrijan los import
     implementation 'net.sf.extjwnl:extjwnl:2.0.1'
     implementation 'net.sf.extjwnl:extjwnl-data-wn31:1.2'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
@@ -62,22 +60,21 @@ dependencies {
     implementation libs.androidx.junit
     implementation libs.androidx.uiautomator
     implementation libs.androidx.uiautomator
-    //implementation libs.junit.junit
-    //implementation libs.androidx.junit
-    //implementation libs.androidx.uiautomator
-    //testImplementation 'junit:junit:4.12'
-    //
     testImplementation libs.androidx.junit
     testImplementation libs.androidx.rules
     testImplementation libs.androidx.espresso.core
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test:rules:1.5.0'
-    androidTestImplementation 'androidx.test:runner:1.5.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.5.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.5.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
+    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
+    androidTestImplementation 'androidx.test:rules:1.6.1'
+    androidTestImplementation 'androidx.test:runner:1.6.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.6.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.6.1'
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
-
+    //
+    implementation "org.springframework:spring-core:4.2.0.RELEASE"
+    implementation "org.springframework:spring-expression:4.2.0.RELEASE"
+    implementation "org.springframework:spring-context:4.2.0.RELEASE"
+    //
     implementation libs.androidx.core.ktx
     implementation libs.androidx.lifecycle.runtime.ktx
     implementation libs.androidx.activity.compose
