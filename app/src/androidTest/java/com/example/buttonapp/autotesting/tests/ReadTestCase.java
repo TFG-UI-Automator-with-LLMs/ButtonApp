@@ -30,7 +30,7 @@ public class ReadTestCase {
     public void read() throws UiObjectNotFoundException {
         UiDevice.getInstance(getInstrumentation());
         //aqui se pone el txt del storage de la app, se almacenan en la raiz de la memoria
-        ReadUtil readUtil = new ReadUtil("TestCase-20250114_114600.txt", true);
+        ReadUtil readUtil = new ReadUtil("TestCase-20250114_122503.txt", true);
         TestCase testCase = readUtil.generateTestCase();
         Log.d("TFG","Test case found: "+testCase);
         Log.d("TFG","Runnig it...");

@@ -6,7 +6,9 @@ import android.util.Log;
 
 
 import androidx.test.uiautomator.UiDevice;
+import androidx.test.uiautomator.UiObject;
 import androidx.test.uiautomator.UiObjectNotFoundException;
+import androidx.test.uiautomator.UiSelector;
 
 import com.example.buttonapp.autotesting.algorithms.RandomSearch;
 import com.example.buttonapp.autotesting.objectivefunctions.graph.ApplicationCrashObjectiveFunction;
@@ -23,6 +25,7 @@ public class ButtonAppTest {
 
     private void RandomSearchTemplate(String appPackageName, ObjectiveFunction goalFunction, Integer numIterations, Integer actionsLength) throws UiObjectNotFoundException {
         UiDevice device = UiDevice.getInstance(getInstrumentation());
+        grantManageAllFilesPermission(device);
         INAGraph graph = INAGraphBuilder.getInstance().build(device, appPackageName);
         RandomSearch algorithm = new RandomSearch(goalFunction, numIterations, actionsLength);
         TestCase testCase = algorithm.run(graph, appPackageName);
@@ -42,6 +45,33 @@ public class ButtonAppTest {
         Integer actionsLength = 4;
         RandomSearchTemplate(appPackageName, goalFunction, numIterations, actionsLength);
     }
+    private void grantManageAllFilesPermission(UiDevice device) throws UiObjectNotFoundException {
+        // 1) Localizar el switch (toggle)
+        //    *Ejemplo* para un toggle con resourceId "com.android.settings:id/switchWidget"
+        UiObject toggle = device.findObject(new UiSelector().resourceId("com.android.settings:id/switchWidget"));
+
+        if (toggle.exists()) {
+            // 2) Pulsar sobre el toggle
+            toggle.click();
+
+            // 3) Si aparece diálogo de confirmación "Allow"
+            UiObject allowButton = device.findObject(new UiSelector().text("Allow"));
+            if (allowButton.exists()) {
+                allowButton.click();
+            }
+
+            // 4) Navegar hacia atrás si deseas volver
+            //    O bien buscar un ícono con contentDescription "Navigate up"
+            UiObject navUp = device.findObject(new UiSelector().description("Navigate up"));
+            if (navUp.exists()) {
+                navUp.click();
+            } else {
+                // Como alternativa
+                device.pressBack();
+            }
+        }
+    }
+
     private void saveTestCaseFile(String appPackageName, int seed, TestCase testCase) {
         WriterUtil writer = new WriterUtil();
         StringBuilder resultContent = new StringBuilder();

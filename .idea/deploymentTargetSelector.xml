@@ -14,7 +14,7 @@
       <SelectionState runConfigName="ReadTestCase">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="read()">
+      <SelectionState runConfigName="testSaveAndChangeText()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
