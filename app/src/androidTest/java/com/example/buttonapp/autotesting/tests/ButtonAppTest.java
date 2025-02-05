@@ -2,9 +2,13 @@ package com.example.buttonapp.autotesting.tests;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 
+import android.content.Intent;
+import android.net.Uri;
+import android.provider.Settings;
 import android.util.Log;
 
 
+import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.uiautomator.UiDevice;
 import androidx.test.uiautomator.UiObject;
 import androidx.test.uiautomator.UiObjectNotFoundException;
@@ -46,29 +50,42 @@ public class ButtonAppTest {
         RandomSearchTemplate(appPackageName, goalFunction, numIterations, actionsLength);
     }
     private void grantManageAllFilesPermission(UiDevice device) throws UiObjectNotFoundException {
-        // 1) Localizar el switch
-        UiObject toggle = device.findObject(new UiSelector().resourceId("com.android.settings:id/switchWidget"));
+        Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
+                .setData(Uri.parse("package:" + "com.example.buttonapp"))
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-        if (toggle.exists()) {
-            // 2) Pulsar sobre el toggle
-            toggle.click();
+        InstrumentationRegistry.getInstrumentation()
+                .getTargetContext()
+                .startActivity(intent);
 
-            // 3) Si aparece confirmación "Allow"
-            UiObject allowButton = device.findObject(new UiSelector().text("Allow"));
+        // El switch esta en Ajustes
+        device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+
+        device.waitForIdle(2000);
+
+        // Buscar switchWidget, puede estar en com.android.settings:id/ o android:id/
+        UiObject switchWidget = device.findObject(
+                new UiSelector().resourceId("com.android.settings:id/switchWidget")
+        );
+        if (switchWidget.exists() && switchWidget.isEnabled()) {
+            switchWidget.click();
+            // Hacer click en el allow access
+            UiObject allowButton = device.findObject(new UiSelector().textMatches("(?i)allow|permitir"));
             if (allowButton.exists()) {
                 allowButton.click();
             }
+        }
 
             // 4) volver hacia atrás
-            UiObject navUp = device.findObject(new UiSelector().description("Navigate up"));
-            if (navUp.exists()) {
-                navUp.click();
-            } else {
-                // alternativa
-                device.pressBack();
-            }
+        UiObject navUp = device.findObject(new UiSelector().description("Navigate up"));
+        if (navUp.exists()) {
+            navUp.click();
+        } else {
+            // alternativa
+            device.pressBack();
         }
     }
+
 
     private void saveTestCaseFile(String appPackageName, int seed, TestCase testCase) {
         WriterUtil writer = new WriterUtil();
