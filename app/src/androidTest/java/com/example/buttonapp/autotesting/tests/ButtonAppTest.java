@@ -46,27 +46,25 @@ public class ButtonAppTest {
         RandomSearchTemplate(appPackageName, goalFunction, numIterations, actionsLength);
     }
     private void grantManageAllFilesPermission(UiDevice device) throws UiObjectNotFoundException {
-        // 1) Localizar el switch (toggle)
-        //    *Ejemplo* para un toggle con resourceId "com.android.settings:id/switchWidget"
+        // 1) Localizar el switch
         UiObject toggle = device.findObject(new UiSelector().resourceId("com.android.settings:id/switchWidget"));
 
         if (toggle.exists()) {
             // 2) Pulsar sobre el toggle
             toggle.click();
 
-            // 3) Si aparece diálogo de confirmación "Allow"
+            // 3) Si aparece confirmación "Allow"
             UiObject allowButton = device.findObject(new UiSelector().text("Allow"));
             if (allowButton.exists()) {
                 allowButton.click();
             }
 
-            // 4) Navegar hacia atrás si deseas volver
-            //    O bien buscar un ícono con contentDescription "Navigate up"
+            // 4) volver hacia atrás
             UiObject navUp = device.findObject(new UiSelector().description("Navigate up"));
             if (navUp.exists()) {
                 navUp.click();
             } else {
-                // Como alternativa
+                // alternativa
                 device.pressBack();
             }
         }
