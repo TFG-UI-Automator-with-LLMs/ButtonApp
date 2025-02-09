@@ -8,6 +8,8 @@ import androidx.test.uiautomator.UiSelector;
 import com.example.buttonapp.autotesting.TestCase;
 import com.example.buttonapp.autotesting.inagraph.StartAppAction;
 import com.example.buttonapp.autotesting.inagraph.actions.Action;
+import com.example.buttonapp.autotesting.inagraph.actions.LLMInputAction;
+import com.example.buttonapp.autotesting.inagraph.actions.LLMInputGenerator;
 import com.example.buttonapp.autotesting.inagraph.actions.RadioButtonAction;
 import com.example.buttonapp.autotesting.inagraph.actions.TextInputAction;
 
@@ -151,6 +153,9 @@ public class ReadUtil {
                 break;
             case "COUNT_DOWN":
                 res = new CountDownAction(object);
+            case "LLMTEXTINPUT":
+                LLMInputGenerator llmInputGenerator = new LLMInputGenerator(seed, value); //ver si hay q cambiar esto pa pasarle la prompt
+                res = new LLMInputAction(object, llmInputGenerator);
         }
         Log.d("ISA", "Action: " + action);
         Log.d("ISA", "Value: " + value);
@@ -190,6 +195,9 @@ public class ReadUtil {
                 break;
             case "COUNT_DOWN":
                 res = new CountDownAction(object);
+            case "LLMTEXTINPUT":
+                LLMInputGenerator llmInputGenerator = new LLMInputGenerator(seed, value); //ver si hay q cambiar esto pa pasarle la prompt
+                res = new LLMInputAction(object, llmInputGenerator);
         }
         return res;
     }

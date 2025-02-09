@@ -7,7 +7,7 @@ import androidx.test.uiautomator.UiObjectNotFoundException;
 public class LLMInputGenerator extends InputGenerator{
     private Long seed;
     private String prompt;
-    private final String api_key = "AIzaSyABRCawgonj1loNoYsqUor1uZQXUbpXWKY";
+    private final String api_key = "AIzaSyDUu0LeXf0i4QYmMqej6t6Z2sWj6Hk-A0A"; //meterla en un .env
 
     public LLMInputGenerator(Long seed, String prompt) {
         this.seed = seed;
@@ -17,7 +17,7 @@ public class LLMInputGenerator extends InputGenerator{
     @Override
     public String generateInput(UiObject object) throws UiObjectNotFoundException {
         String res = ""; //resultado de la prompt
-        prompt = "Genera valores con campos válidos de calles de Sevilla para introducirlos en un campo de tipo Input, con 10 valores está bien.";
+        //prompt = "Genera valores con campos válidos de calles de Sevilla para introducirlos en un campo de tipo Input, con 10 valores está bien.";
         try {
             if (api_key != null && !api_key.isEmpty() && prompt !=null && !prompt.isEmpty()){
                 res = LLMClient.generateResponse(prompt, api_key);
