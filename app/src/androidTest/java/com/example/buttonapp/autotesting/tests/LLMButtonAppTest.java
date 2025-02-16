@@ -7,31 +7,28 @@ import android.net.Uri;
 import android.provider.Settings;
 import android.util.Log;
 
-
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.uiautomator.UiDevice;
 import androidx.test.uiautomator.UiObject;
 import androidx.test.uiautomator.UiObjectNotFoundException;
 import androidx.test.uiautomator.UiSelector;
 
-import com.example.buttonapp.autotesting.algorithms.RandomSearch;
-import com.example.buttonapp.autotesting.objectivefunctions.graph.ApplicationCrashObjectiveFunction;
-
-import org.junit.Test;
-
 import com.example.buttonapp.autotesting.TestCase;
+import com.example.buttonapp.autotesting.algorithms.LLMRandomSearch;
 import com.example.buttonapp.autotesting.inagraph.INAGraph;
 import com.example.buttonapp.autotesting.inagraph.INAGraphBuilder;
+import com.example.buttonapp.autotesting.objectivefunctions.graph.ApplicationCrashObjectiveFunction;
 import com.example.buttonapp.autotesting.objectivefunctions.graph.ObjectiveFunction;
 import com.example.buttonapp.autotesting.util.WriterUtil;
 
-public class ButtonAppTest {
+import org.junit.Test;
 
-    private void RandomSearchTemplate(String appPackageName, ObjectiveFunction goalFunction, Integer numIterations, Integer actionsLength) throws UiObjectNotFoundException {
+public class LLMButtonAppTest {
+    private void LLMRandomSearchTemplate(String appPackageName, ObjectiveFunction goalFunction, Integer numIterations, Integer actionsLength) throws UiObjectNotFoundException {
         UiDevice device = UiDevice.getInstance(getInstrumentation());
         grantManageAllFilesPermission(device);
         INAGraph graph = INAGraphBuilder.getInstance().build(device, appPackageName);
-        RandomSearch algorithm = new RandomSearch(goalFunction, numIterations, actionsLength);
+        LLMRandomSearch algorithm = new LLMRandomSearch(goalFunction, numIterations, actionsLength);
         TestCase testCase = algorithm.run(graph, appPackageName);
         Log.d("TFG","Test case found: "+testCase);
         Log.d("TFG","Runnig it...");
@@ -47,7 +44,7 @@ public class ButtonAppTest {
         ObjectiveFunction goalFunction = new ApplicationCrashObjectiveFunction();
         Integer numIterations = 10;
         Integer actionsLength = 4;
-        RandomSearchTemplate(appPackageName, goalFunction, numIterations, actionsLength);
+        LLMRandomSearchTemplate(appPackageName, goalFunction, numIterations, actionsLength);
     }
     private void grantManageAllFilesPermission(UiDevice device) throws UiObjectNotFoundException {
         Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
@@ -76,7 +73,7 @@ public class ButtonAppTest {
             }
         }
 
-            // 4) volver hacia atrás
+        // 4) volver hacia atrás
         UiObject navUp = device.findObject(new UiSelector().description("Navigate up"));
         if (navUp.exists()) {
             navUp.click();
@@ -100,7 +97,7 @@ public class ButtonAppTest {
         String testCaseToString = testCase.toString().replace("Test Case[4]:", "").trim();
 
         // Separar las acciones segun el tipo
-        String[] actions = testCaseToString.split("(?=BUTTON|TEXT|SCROLL_DOWN)");
+        String[] actions = testCaseToString.split("(?=BUTTON|SCROLL_DOWN|LLMTEXTINPUT)");
 
         // Indicar numero de pasos
         resultContent.append(actions.length).append("\n");
@@ -109,13 +106,13 @@ public class ButtonAppTest {
         for (String action : actions) {
             action = action.trim();
 
-            if (action.startsWith("TEXT")) {
+            if (action.startsWith("LLMTEXTINPUT")) {
                 String[] parts = action.split("UiSelector");
                 if (parts.length == 2) {
-                    resultContent.append("TEXT, UiSelector").append(parts[1].trim()).append(", \"[VALOR]\"\n"); //[VALOR] puede formatearse para que se incluyan nuevos datos
+                    resultContent.append("LLMTEXTINPUT, UiSelector").append(parts[1].trim()).append(", \"[VALOR]\"\n"); //[VALOR] puede formatearse para que se incluyan nuevos datos
                 } else {
                     // Si no se parsea que escriba algo para evitar fallos
-                    resultContent.append("TEXT, ").append(action).append("\n");
+                    resultContent.append("LLMTEXTINPUT, ").append(action).append("\n");
                 }
             } else if (action.startsWith("BUTTON")) {
                 resultContent.append(action).append("\n");

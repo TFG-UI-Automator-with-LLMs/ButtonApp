@@ -24,6 +24,17 @@ public class ActionFactory {
         return result;
     }
 
+    public static Map<UiObject, Action> createLLMInputActions(UiDevice device, Long seed) {
+        String value = "Genera valores con campos válidos de calles de Sevilla para introducirlos en un campo de tipo Input, con 20 valores está bien. Simplemente di el nombre de las calles.";
+        LLMInputGenerator generator = new LLMInputGenerator(seed, value);
+        List<UiObject> inputTexts = ElementIdentifier.findElements(device, "android.widget.EditText");
+        Map<UiObject, Action> result = new HashMap<>();
+        for (UiObject input : inputTexts) {
+            result.put(input, new LLMInputAction(input, generator));
+        }
+        return result;
+    }
+
     public static Map<UiObject, Action> createButtonActions(UiDevice device) {
         Map<UiObject, Action> result = new HashMap<>();
         try{
@@ -63,6 +74,7 @@ public class ActionFactory {
         actions.putAll(ActionFactory.createInputActions(device, seed));
         actions.putAll(ActionFactory.createCheckBoxActions(device));
         actions.putAll(ActionFactory.createRadioActions(device, seed));
+        actions.putAll(ActionFactory.createLLMInputActions(device, seed));
         return actions;
     }
 }
