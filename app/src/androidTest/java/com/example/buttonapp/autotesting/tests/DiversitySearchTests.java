@@ -25,8 +25,9 @@ public class DiversitySearchTests {
                                              Integer iterations, Integer diversityLength, Integer actionsLength,
                                              Boolean saveAllTestCases) throws UiObjectNotFoundException {
         UiDevice mDevice = UiDevice.getInstance(getInstrumentation());
+        String prompt = null;
         DiversitySearch algorithm=new DiversitySearch(actionSelection, iterations, diversityLength,
-                actionsLength, appPackageName, saveAllTestCases);
+                actionsLength, appPackageName, saveAllTestCases, prompt);
         List<TestCase> testCases=algorithm.run(mDevice, appPackageName);
         Log.d("TFG","Test cases founded: " + testCases.size());
     }

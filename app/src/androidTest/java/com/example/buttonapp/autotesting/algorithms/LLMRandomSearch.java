@@ -21,11 +21,13 @@ public class LLMRandomSearch {
     long iterations;
     long actionsLength;
     Random random;
+    String prompt;
 
-    public LLMRandomSearch(ObjectiveFunction objective, long iterations, int actionsLength) {
+    public LLMRandomSearch(ObjectiveFunction objective, long iterations, int actionsLength, String prompt) {
         this.objective = objective;
         this.iterations = iterations;
         this.actionsLength=actionsLength;
+        this.prompt = prompt;
     }
 
     public TestCase run(INAGraph graph, String appPackage) throws UiObjectNotFoundException {

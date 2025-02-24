@@ -1,11 +1,16 @@
 package com.example.buttonapp.autotesting.inagraph.actions;
 
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.Iterator;
+import java.util.Random;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -78,7 +83,25 @@ public class LLMClient {
             JSONArray parts = content.getJSONArray("parts");
             if (parts.length() > 0) {
                 JSONObject firstPart = parts.getJSONObject(0);
-                return firstPart.getString("text");
+                Log.d("TFG FIRST PART JSON: ",firstPart.toString());
+                String jsonText = firstPart.getString("text").trim();
+                Log.d("TFG JSON FORMATED: ",jsonText);
+                return extractedValue(jsonText);
+            }
+        }
+        return "";
+    }
+    //metodo para sacar el valor del campo indicado en el json de la prompt
+    private static String extractedValue(String text) throws Exception{
+        JSONArray resArray = new JSONArray(text);
+        if (resArray.length()>0){
+            Random random = new Random();
+            int randomIndex = random.nextInt(resArray.length());
+            JSONObject randomObject = resArray.getJSONObject(randomIndex);
+            Iterator<String> keys = randomObject.keys();
+            if (keys.hasNext()){
+                String key = keys.next();
+                return randomObject.getString(key);
             }
         }
         return "";

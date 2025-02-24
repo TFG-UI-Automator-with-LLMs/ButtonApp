@@ -26,9 +26,9 @@ public class INAGraphBuilder {
         return _instance;
     }
 
-    public INAGraph build(UiDevice device, String appPackage) throws UiObjectNotFoundException {
+    public INAGraph build(UiDevice device, String appPackage, String prompt) throws UiObjectNotFoundException {
         startApp(device, appPackage);
-        Node node = buildNode(device, appPackage);
+        Node node = buildNode(device, appPackage, prompt);
         closeApp(device, appPackage);
         return new INAGraph(node);
     }
@@ -48,21 +48,21 @@ public class INAGraphBuilder {
         }
     }
 
-    public Node buildNode(UiDevice device, String appPackage) throws UiObjectNotFoundException {
+    public Node buildNode(UiDevice device, String appPackage, String prompt) throws UiObjectNotFoundException {
         Node node = new Node();
-        createActions(node, device);
-        buildVertex(node, device, appPackage);
+        createActions(node, device, prompt);
+        buildVertex(node, device, appPackage, prompt);
         return node;
     }
 
-    public void createActions(Node node, UiDevice device) {
-        Map<UiObject, Action> actions = ActionFactory.createActions(device,  new Random().nextLong());
+    public void createActions(Node node, UiDevice device, String prompt) {
+        Map<UiObject, Action> actions = ActionFactory.createActions(device,  new Random().nextLong(), prompt);
         node.getControls().addAll(actions.keySet());
         node.getAvailableActions().addAll(actions.values());
     }
 
 
-    public void buildVertex(Node node, UiDevice device, String appPackage) throws UiObjectNotFoundException {
+    public void buildVertex(Node node, UiDevice device, String appPackage, String prompt) throws UiObjectNotFoundException {
         for (Action a : node.getAvailableActions()) {
             try {
                 executedActions.add(a);
@@ -70,8 +70,8 @@ public class INAGraphBuilder {
                 String packageName = device.getCurrentPackageName();
                 a.perform();
                 crashed = !packageName.equals(device.getCurrentPackageName());
-                if (!isSameNode(node, device) && !crashed) {
-                    Node nextNode = buildNode(device, appPackage);
+                if (!isSameNode(node, device, prompt) && !crashed) {
+                    Node nextNode = buildNode(device, appPackage, prompt);
                     node.getOutputVertex().put(a, nextNode);
                     Action goBack = new GoBackAction(device);
                     nextNode.getOutputVertex().put(goBack, node);
@@ -108,9 +108,9 @@ public class INAGraphBuilder {
      * @throws UiObjectNotFoundException
      */
 
-    public boolean isSameNode(Node currentNode, UiDevice device) throws UiObjectNotFoundException {
+    public boolean isSameNode(Node currentNode, UiDevice device, String prompt) throws UiObjectNotFoundException {
         boolean result = true;
-        List<Action> actions = new ArrayList<>(ActionFactory.createActions(device, new Random().nextLong()).values());
+        List<Action> actions = new ArrayList<>(ActionFactory.createActions(device, new Random().nextLong(), prompt).values());
         for (int i = 0; i < actions.size() && result; i++)
             result = (result && currentNode.getAvailableActions().contains(actions.get(i)));
         result = (result && currentNode.getAvailableActions().size() == (actions.size()));

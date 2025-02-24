@@ -28,12 +28,14 @@ public class DynamicRandomSearch {
     List<Action> testActions;
     Boolean saveAllTestCases;
     Random random;
+    String prompt;
 
-    public DynamicRandomSearch(DynamicObjectiveFunction objective, long iterations, int actionsLength, String appPackage, Boolean saveAllTestCases) {
+    public DynamicRandomSearch(DynamicObjectiveFunction objective, long iterations, int actionsLength, String appPackage, Boolean saveAllTestCases, String prompt) {
         this.objective = objective;
         this.iterations = iterations;
         this.actionsLength=actionsLength;
         this.saveAllTestCases = saveAllTestCases;
+        this.prompt = prompt;
         beforeActions=new ArrayList<>();
         beforeActions.add(new StartAppAction(appPackage));
         afterActions=new ArrayList<>();
@@ -108,7 +110,7 @@ public class DynamicRandomSearch {
 
     private List<Action> createAction(UiDevice device, Long seed) {
         Map<UiObject, Action> actions;
-        actions = ActionFactory.createActions(device, seed);
+        actions = ActionFactory.createActions(device, seed, prompt);
         return new ArrayList<>(actions.values());
     }
 

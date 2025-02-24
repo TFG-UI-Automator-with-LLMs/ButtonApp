@@ -24,11 +24,11 @@ import com.example.buttonapp.autotesting.util.WriterUtil;
 import org.junit.Test;
 
 public class LLMButtonAppTest {
-    private void LLMRandomSearchTemplate(String appPackageName, ObjectiveFunction goalFunction, Integer numIterations, Integer actionsLength) throws UiObjectNotFoundException {
+    private void LLMRandomSearchTemplate(String appPackageName, ObjectiveFunction goalFunction, Integer numIterations, Integer actionsLength, String prompt) throws UiObjectNotFoundException {
         UiDevice device = UiDevice.getInstance(getInstrumentation());
         grantManageAllFilesPermission(device);
-        INAGraph graph = INAGraphBuilder.getInstance().build(device, appPackageName);
-        LLMRandomSearch algorithm = new LLMRandomSearch(goalFunction, numIterations, actionsLength);
+        INAGraph graph = INAGraphBuilder.getInstance().build(device, appPackageName, prompt);
+        LLMRandomSearch algorithm = new LLMRandomSearch(goalFunction, numIterations, actionsLength, prompt); // pasar aqui la prompt
         TestCase testCase = algorithm.run(graph, appPackageName);
         Log.d("TFG","Test case found: "+testCase);
         Log.d("TFG","Runnig it...");
@@ -41,10 +41,11 @@ public class LLMButtonAppTest {
     @Test
     public void testSimpleAppCrash() throws UiObjectNotFoundException{
         String appPackageName = "com.example.buttonapp";
+        String prompt = "JSON: Genera una lista con 10 direcciones de prueba de calles reales en Sevilla para un campo de tipo Input. Cada dirección debe incluir el nombre de la calle y el número. Da el resultado sin añadir ```json antes de [ al comienzo.";
         ObjectiveFunction goalFunction = new ApplicationCrashObjectiveFunction();
         Integer numIterations = 10;
         Integer actionsLength = 4;
-        LLMRandomSearchTemplate(appPackageName, goalFunction, numIterations, actionsLength);
+        LLMRandomSearchTemplate(appPackageName, goalFunction, numIterations, actionsLength, prompt); //pasarle aqui la prompt
     }
     private void grantManageAllFilesPermission(UiDevice device) throws UiObjectNotFoundException {
         Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
