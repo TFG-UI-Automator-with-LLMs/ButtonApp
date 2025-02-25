@@ -113,29 +113,40 @@ public class ReadUtil {
         return testCase;
     }
 
-    public Action generateActionFromString(String action, Long seed){
-        String[] splitAction = action.split(","); // Dividir la cadena por comas
-        String type = splitAction[0];       // Seleccionar el tipo de objeto (botón, cuadro de texto, radio button, etc.)
-        String resourceId = splitAction[1]; // Selector del objeto sobre el que actuar
-        String value = splitAction.length==2?"":splitAction[2];      // Valor a usar para realizar la acción
-        String selectorType = resourceId.substring(resourceId.indexOf("[")+1,resourceId.indexOf("=")).trim();
-        resourceId = resourceId.substring(resourceId.indexOf("=") + 1 ,resourceId.length()-1);
-        Action res = null;
+    public Action generateActionFromString(String action, Long seed) {
+        // Dividir la cadena por comas
+        String[] splitAction = action.split(",");
+        String type = splitAction[0];       // "LLMTEXTINPUT", "TEXT", "BUTTON", etc.
+        String resourceId = splitAction[1]; // UiSelector[...]
+        // Si no hay valor adicional, usar cadena vacía
+        String value = splitAction.length == 2 ? "" : splitAction[2];
+
+        // Extraer el selector
+        String selectorType = resourceId.substring(resourceId.indexOf("[")+1, resourceId.indexOf("=")).trim();
+        resourceId = resourceId.substring(resourceId.indexOf("=") + 1, resourceId.length()-1);
+
+        // Crear el UiObject
         UiObject object = null;
-        if(selectorType.equals("RESOURCE_ID"))
+        if (selectorType.equals("RESOURCE_ID")) {
             object = new UiObject(new UiSelector().resourceId(resourceId));
-        else if(selectorType.equals("DESCRIPTION"))
+        } else if (selectorType.equals("DESCRIPTION")) {
             object = new UiObject(new UiSelector().descriptionContains(resourceId));
-        else if(selectorType.equals("TEXT"))
+        } else if (selectorType.equals("TEXT")) {
             object = new UiObject(new UiSelector().textContains(resourceId));
-        else if (selectorType.equals("SCROLLABLE"))
+        } else if (selectorType.equals("SCROLLABLE")) {
             object = new UiObject(new UiSelector().scrollable(!type.equals("SCROLL_DOWN")));
+        }
+
+        // Quitar comillas del value si vienen en la línea
+        String cleanedValue = removeSurroundingQuotes(value.trim());
+
+        Action res = null;
         switch (type) {
             case "BUTTON":
                 res = new ButtonAction(object);
                 break;
             case "TEXT":
-                TextInputGenerator textInputGenerator = new TextInputGenerator(seed, value);
+                TextInputGenerator textInputGenerator = new TextInputGenerator(seed, cleanedValue);
                 res = new TextInputAction(object, textInputGenerator);
                 break;
             case "CHECKBOX":
@@ -153,15 +164,38 @@ public class ReadUtil {
                 break;
             case "COUNT_DOWN":
                 res = new CountDownAction(object);
+                break; // IMPORTANTE: evitar el salto al siguiente case
             case "LLMTEXTINPUT":
-                LLMInputGenerator llmInputGenerator = new LLMInputGenerator(seed, value); //ver si hay q cambiar esto pa pasarle la prompt
+                // Aquí se usa cleanedValue como prompt
+                LLMInputGenerator llmInputGenerator = new LLMInputGenerator(seed, cleanedValue);
                 res = new LLMInputAction(object, llmInputGenerator);
+                break;
+            default:
+                // Caso por defecto para logs o manejo de errores
+                Log.e("ISA", "Tipo de acción no reconocido: " + type);
+                break;
         }
-        Log.d("ISA", "Action: " + action);
-        Log.d("ISA", "Value: " + value);
-        res.setValue(value.trim());
+
+        // Solo establecer el value si res no es null
+        if (res != null) {
+            res.setValue(cleanedValue);
+        } else {
+            Log.e("ISA", "La acción resultó nula, se omite setValue");
+        }
+
         return res;
     }
+
+
+    // Método auxiliar para eliminar comillas iniciales y finales
+    private String removeSurroundingQuotes(String input) {
+        if (input == null) return "";
+        if (input.startsWith("\"") && input.endsWith("\"") && input.length() >= 2) {
+            return input.substring(1, input.length() - 1).trim();
+        }
+        return input.trim();
+    }
+
 
     public static Action generateActionFromSimpleString(String action, Long seed){
         Log.d("ISA", action);
