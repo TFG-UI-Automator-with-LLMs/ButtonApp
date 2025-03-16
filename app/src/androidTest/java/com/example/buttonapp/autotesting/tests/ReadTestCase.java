@@ -32,7 +32,8 @@ public class ReadTestCase {
         //aqui se pone el txt del storage de la app, se almacenan en la raiz de la memoria
         // sin LLM: TestCase-20250114_122503.txt
         // con LLM: TestCase-20250209_175109.txt
-        ReadUtil readUtil = new ReadUtil("TestCase-20250209_175109.txt", true);
+        // TestCase-20250225_164759.txt
+        ReadUtil readUtil = new ReadUtil("TestCase-20250225_164759.txt", true);
         TestCase testCase = readUtil.generateTestCase();
         Log.d("TFG","Test case found: "+testCase);
         Log.d("TFG","Runnig it...");

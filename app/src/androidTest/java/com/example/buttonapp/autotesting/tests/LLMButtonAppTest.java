@@ -24,11 +24,11 @@ import com.example.buttonapp.autotesting.util.WriterUtil;
 import org.junit.Test;
 
 public class LLMButtonAppTest {
-    private void LLMRandomSearchTemplate(String appPackageName, ObjectiveFunction goalFunction, Integer numIterations, Integer actionsLength) throws UiObjectNotFoundException {
+    private void LLMRandomSearchTemplate(String appPackageName, ObjectiveFunction goalFunction, Integer numIterations, Integer actionsLength, String prompt) throws UiObjectNotFoundException {
         UiDevice device = UiDevice.getInstance(getInstrumentation());
         grantManageAllFilesPermission(device);
-        INAGraph graph = INAGraphBuilder.getInstance().build(device, appPackageName);
-        LLMRandomSearch algorithm = new LLMRandomSearch(goalFunction, numIterations, actionsLength);
+        INAGraph graph = INAGraphBuilder.getInstance().build(device, appPackageName, prompt);
+        LLMRandomSearch algorithm = new LLMRandomSearch(goalFunction, numIterations, actionsLength, prompt); // pasar aqui la prompt
         TestCase testCase = algorithm.run(graph, appPackageName);
         Log.d("TFG","Test case found: "+testCase);
         Log.d("TFG","Runnig it...");
@@ -36,15 +36,16 @@ public class LLMButtonAppTest {
         testCase.executeTest();
         testCase.executeAfter();
         Log.d("TFG","Done!");
-        saveTestCaseFile(appPackageName, -1, testCase);
+        saveTestCaseFile(appPackageName, -1, testCase, prompt);
     }
     @Test
     public void testSimpleAppCrash() throws UiObjectNotFoundException{
         String appPackageName = "com.example.buttonapp";
+        String prompt = "JSON: Genera una lista con 10 direcciones de prueba de calles reales en Sevilla para un campo de tipo Input. Cada dirección debe incluir el nombre de la calle y el número. Da el resultado sin añadir ```json antes de [ al comienzo.";
         ObjectiveFunction goalFunction = new ApplicationCrashObjectiveFunction();
         Integer numIterations = 10;
-        Integer actionsLength = 4;
-        LLMRandomSearchTemplate(appPackageName, goalFunction, numIterations, actionsLength);
+        Integer actionsLength = 10;
+        LLMRandomSearchTemplate(appPackageName, goalFunction, numIterations, actionsLength, prompt); //pasarle aqui la prompt
     }
     private void grantManageAllFilesPermission(UiDevice device) throws UiObjectNotFoundException {
         Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
@@ -84,7 +85,7 @@ public class LLMButtonAppTest {
     }
 
 
-    private void saveTestCaseFile(String appPackageName, int seed, TestCase testCase) {
+    private void saveTestCaseFile(String appPackageName, int seed, TestCase testCase, String prompt) {
         WriterUtil writer = new WriterUtil();
         StringBuilder resultContent = new StringBuilder();
 
@@ -97,6 +98,7 @@ public class LLMButtonAppTest {
         String testCaseToString = testCase.toString().replace("Test Case[4]:", "").trim();
 
         // Separar las acciones segun el tipo
+        // BUTTON, TEXT, CHECKBOX, RADIO_BUTTON, START, STOP, GO_BACK, SCROLL_DOWN, SCROLL_UP, COUNT_DOWN, LLMTEXTINPUT
         String[] actions = testCaseToString.split("(?=BUTTON|SCROLL_DOWN|LLMTEXTINPUT)");
 
         // Indicar numero de pasos
@@ -105,11 +107,14 @@ public class LLMButtonAppTest {
         // Dar formato a las acciones
         for (String action : actions) {
             action = action.trim();
+            if (action.equals("TEXT")){
+                action.replace("TEXT", "LLMTEXTINPUT");
+            }
 
             if (action.startsWith("LLMTEXTINPUT")) {
                 String[] parts = action.split("UiSelector");
                 if (parts.length == 2) {
-                    resultContent.append("LLMTEXTINPUT, UiSelector").append(parts[1].trim()).append(", \"[VALOR]\"\n"); //[VALOR] puede formatearse para que se incluyan nuevos datos
+                    resultContent.append("LLMTEXTINPUT, UiSelector").append(parts[1].trim()).append(", \"").append(prompt).append("\"\n"); //[VALOR] puede formatearse para que se incluyan nuevos datos
                 } else {
                     // Si no se parsea que escriba algo para evitar fallos
                     resultContent.append("LLMTEXTINPUT, ").append(action).append("\n");
@@ -119,8 +124,10 @@ public class LLMButtonAppTest {
             } else if (action.startsWith("SCROLL_DOWN")) {
                 resultContent.append(action).append("\n");
             } else {
-                // Otras acciones no incluidas en la lista con los tipos
-                resultContent.append("UNKNOWN_ACTION: ").append(action).append("\n");
+                String[] parts = action.split("UiSelector");
+                if (parts.length == 2) {
+                    resultContent.append("LLMTEXTINPUT, UiSelector").append(parts[1].trim()).append(", \"").append(prompt).append("\"\n");
+                }
             }
         }
         // Añadir la verificacion del estado final
@@ -129,4 +136,5 @@ public class LLMButtonAppTest {
         writer.write(resultContent.toString());
         Log.d("TFG", "Resultado guardado en: " + writer.getPath());
     }
+
 }

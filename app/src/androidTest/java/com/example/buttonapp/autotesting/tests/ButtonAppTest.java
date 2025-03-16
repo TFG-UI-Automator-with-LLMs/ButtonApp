@@ -30,7 +30,8 @@ public class ButtonAppTest {
     private void RandomSearchTemplate(String appPackageName, ObjectiveFunction goalFunction, Integer numIterations, Integer actionsLength) throws UiObjectNotFoundException {
         UiDevice device = UiDevice.getInstance(getInstrumentation());
         grantManageAllFilesPermission(device);
-        INAGraph graph = INAGraphBuilder.getInstance().build(device, appPackageName);
+        String prompt = null;
+        INAGraph graph = INAGraphBuilder.getInstance().build(device, appPackageName,null);
         RandomSearch algorithm = new RandomSearch(goalFunction, numIterations, actionsLength);
         TestCase testCase = algorithm.run(graph, appPackageName);
         Log.d("TFG","Test case found: "+testCase);

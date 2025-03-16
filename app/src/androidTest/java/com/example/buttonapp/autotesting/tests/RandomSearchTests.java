@@ -22,7 +22,8 @@ public class RandomSearchTests {
     //Template for test RandomSearch algorithm
     private void randomSearchTestTemplate(String appPackageName, ObjectiveFunction objective, Integer iterations, Integer actionsLength) throws UiObjectNotFoundException {
         UiDevice mDevice = UiDevice.getInstance(getInstrumentation());
-        INAGraph graph= INAGraphBuilder.getInstance().build(mDevice,appPackageName);
+        String prompt=null;
+        INAGraph graph= INAGraphBuilder.getInstance().build(mDevice,appPackageName,prompt);
         RandomSearch algorithm=new RandomSearch(objective,iterations,actionsLength);
         TestCase testCase=algorithm.run(graph,appPackageName);
         Log.d("TFG","Test case found: "+testCase);

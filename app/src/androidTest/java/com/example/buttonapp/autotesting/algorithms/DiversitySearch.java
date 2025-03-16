@@ -36,14 +36,16 @@ public class DiversitySearch {
     double diferentActions;
     ActionSelection actionSelection;
     private  Random random;
+    private String prompt;
 
-    public DiversitySearch(ActionSelection actionSelection, long iterations, long diversityLength, int actionsLength, String appPackage, Boolean saveAllTestCases) {
+    public DiversitySearch(ActionSelection actionSelection, long iterations, long diversityLength, int actionsLength, String appPackage, Boolean saveAllTestCases, String prompt) {
         this.iterations = iterations;
         this.actionsLength = actionsLength;
         this.diversityLength = diversityLength;
         this.saveAllTestCases = saveAllTestCases;
         this.diferentActions = 0;
         this.actionSelection = actionSelection;
+        this.prompt = prompt;
         beforeActions = new ArrayList<>();
         beforeActions.add(new StartAppAction(appPackage));
         afterActions = new ArrayList<>();
@@ -114,7 +116,7 @@ public class DiversitySearch {
 
     private List<Action> createAction(UiDevice device, Long seed) {
         Map<UiObject, Action> actions;
-        actions = ActionFactory.createActions(device, seed);
+        actions = ActionFactory.createActions(device, seed, prompt);
         return new ArrayList<>(actions.values());
     }
 

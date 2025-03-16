@@ -23,8 +23,8 @@ public class DynamicRandomSearchTests {
                                                  Integer iterations, Integer actionsLength,
                                                  Boolean saveAllTestCases) throws UiObjectNotFoundException {
         UiDevice mDevice = UiDevice.getInstance(getInstrumentation());
-
-        DynamicRandomSearch algorithm = new DynamicRandomSearch(objective, iterations, actionsLength, appPackageName, saveAllTestCases);
+        String prompt = null;
+        DynamicRandomSearch algorithm = new DynamicRandomSearch(objective, iterations, actionsLength, appPackageName, saveAllTestCases, prompt);
         TestCase testCase = algorithm.run(mDevice, appPackageName);
         Log.d("TFG", "Test case found: " + testCase);
         Log.d("TFG", "Runnig it...");
