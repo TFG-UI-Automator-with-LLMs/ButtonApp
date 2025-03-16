@@ -11,7 +11,8 @@
         android:id="@+id/editText"
         android:layout_width="269dp"
         android:layout_height="95dp"
-        android:hint="Escribe algo aquí"
+        android:contentDescription="Sé creativo incluyendo valores válidos para este campo input"
+        android:hint="Introduce valores"
         android:inputType="text" />
     <!-- Botón para guardar el texto -->
     <Button
