@@ -14,10 +14,10 @@
       <SelectionState runConfigName="MainActivityTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="ManageAllFilesPermissionTest">
+      <SelectionState runConfigName="LLMButtonAppTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="LLMButtonAppTest">
+      <SelectionState runConfigName="testSimpleAppCrashNoPrompt()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
