@@ -101,7 +101,7 @@ public class ButtonAppTest {
         String testCaseToString = testCase.toString().replace("Test Case[4]:", "").trim();
 
         // Separar las acciones segun el tipo
-        String[] actions = testCaseToString.split("(?=BUTTON|TEXT|SCROLL_DOWN)");
+        String[] actions = testCaseToString.split("(?=BUTTON|SCROLL_DOWN|TEXT|CHECKBOX|RADIO_BUTTON|START|STOP|GO_BACK|SCROLL_UP|COUNT_DOWN)");
 
         // Indicar numero de pasos
         resultContent.append(actions.length).append("\n");
@@ -121,6 +121,20 @@ public class ButtonAppTest {
             } else if (action.startsWith("BUTTON")) {
                 resultContent.append(action).append("\n");
             } else if (action.startsWith("SCROLL_DOWN")) {
+                resultContent.append(action).append("\n");
+            } else if (action.startsWith("CHECKBOX")) {
+                resultContent.append(action).append("\n");
+            } else if (action.startsWith("RADIO_BUTTON")) {
+                resultContent.append(action).append("\n");
+            } else if (action.startsWith("START")) {
+                resultContent.append(action).append("\n");
+            } else if (action.startsWith("STOP")) {
+                resultContent.append(action).append("\n");
+            } else if (action.startsWith("GO_BACK")) {
+                resultContent.append(action).append("\n");
+            } else if (action.startsWith("SCROLL_UP")) {
+                resultContent.append(action).append("\n");
+            } else if (action.startsWith("COUNT_DOWN")) {
                 resultContent.append(action).append("\n");
             } else {
                 // Otras acciones no incluidas en la lista con los tipos

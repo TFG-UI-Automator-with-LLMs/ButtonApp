@@ -99,7 +99,7 @@ public class LLMButtonAppTest {
 
         // Separar las acciones segun el tipo
         // BUTTON, TEXT, CHECKBOX, RADIO_BUTTON, START, STOP, GO_BACK, SCROLL_DOWN, SCROLL_UP, COUNT_DOWN, LLMTEXTINPUT
-        String[] actions = testCaseToString.split("(?=BUTTON|SCROLL_DOWN|LLMTEXTINPUT)");
+        String[] actions = testCaseToString.split("(?=BUTTON|SCROLL_DOWN|LLMTEXTINPUT|TEXT|CHECKBOX|RADIO_BUTTON|START|STOP|GO_BACK|SCROLL_UP|COUNT_DOWN)");
 
         // Indicar numero de pasos
         resultContent.append(actions.length).append("\n");
@@ -107,23 +107,43 @@ public class LLMButtonAppTest {
         // Dar formato a las acciones
         for (String action : actions) {
             action = action.trim();
-            if (action.equals("TEXT")){
-                action.replace("TEXT", "LLMTEXTINPUT");
-            }
-
             if (action.startsWith("LLMTEXTINPUT")) {
                 String[] parts = action.split("UiSelector");
                 if (parts.length == 2) {
-                    resultContent.append("LLMTEXTINPUT, UiSelector").append(parts[1].trim()).append(", \"").append(prompt).append("\"\n"); //[VALOR] puede formatearse para que se incluyan nuevos datos
+                    resultContent.append("LLMTEXTINPUT, UiSelector").append(parts[1].trim()).append(", \"").append(prompt).append("\"\n");
                 } else {
                     // Si no se parsea que escriba algo para evitar fallos
                     resultContent.append("LLMTEXTINPUT, ").append(action).append("\n");
                 }
-            } else if (action.startsWith("BUTTON")) {
+            } else if (action.startsWith("TEXT")) {
+                String[] parts = action.split("UiSelector");
+                if (parts.length == 2) {
+                    resultContent.append("TEXT, UiSelector").append(parts[1].trim()).append(", \"[VALOR]\"\n");
+                } else {
+                    // Si no se parsea que escriba algo para evitar fallos
+                    resultContent.append("TEXT, ").append(action).append("\n");
+                }
+            }
+            else if (action.startsWith("BUTTON")) {
                 resultContent.append(action).append("\n");
             } else if (action.startsWith("SCROLL_DOWN")) {
                 resultContent.append(action).append("\n");
-            } else {
+            } else if (action.startsWith("CHECKBOX")) {
+                resultContent.append(action).append("\n");
+            } else if (action.startsWith("RADIO_BUTTON")) {
+                resultContent.append(action).append("\n");
+            } else if (action.startsWith("START")) {
+                resultContent.append(action).append("\n");
+            } else if (action.startsWith("STOP")) {
+                resultContent.append(action).append("\n");
+            } else if (action.startsWith("GO_BACK")) {
+                resultContent.append(action).append("\n");
+            } else if (action.startsWith("SCROLL_UP")) {
+                resultContent.append(action).append("\n");
+            } else if (action.startsWith("COUNT_DOWN")) {
+                resultContent.append(action).append("\n");
+            }
+            else {
                 String[] parts = action.split("UiSelector");
                 if (parts.length == 2) {
                     resultContent.append("LLMTEXTINPUT, UiSelector").append(parts[1].trim()).append(", \"").append(prompt).append("\"\n");
