@@ -17,17 +17,12 @@ public class LLMInputGenerator extends InputGenerator {
 
     @Override
     public String generateInput(UiObject object) throws UiObjectNotFoundException {
-        String res = ""; // Resultado de la prompt
+        String res = "";
         try {
-            // 1) Verificamos que la API key existe
             if (api_key != null && !api_key.isEmpty()) {
-
-                // 2) Si la prompt es nula o está vacía, construimos una prompt basada en la hint
                 if (prompt == null || prompt.trim().isEmpty()) {
                     // Obtenemos la "hint" o contentDescription del EditText
                     String hint = object.getContentDescription();
-
-                    // Si no tiene contentDescription, podrías probar con getText() o poner un fallback
                     if (hint == null || hint.trim().isEmpty()) {
                         hint = "Introduce algún texto sobre equipos de fubtol";
                     }

@@ -110,7 +110,7 @@ public class LLMButtonAppTest {
 
         // Separar las acciones segun el tipo
         // BUTTON, TEXT, CHECKBOX, RADIO_BUTTON, START, STOP, GO_BACK, SCROLL_DOWN, SCROLL_UP, COUNT_DOWN, LLMTEXTINPUT
-        String[] actions = testCaseToString.split("(?=BUTTON|SCROLL_DOWN|LLMTEXTINPUT|CHECKBOX|RADIO_BUTTON|START|STOP|GO_BACK|SCROLL_UP|COUNT_DOWN)");
+        String[] actions = testCaseToString.split("(?=BUTTON|SCROLL_DOWN|LLMTEXTINPUT|TEXT|CHECKBOX|RADIO_BUTTON|START|STOP|GO_BACK|SCROLL_UP|COUNT_DOWN)");
 
         // Indicar numero de pasos
         resultContent.append(actions.length).append("\n");
@@ -126,7 +126,7 @@ public class LLMButtonAppTest {
                     // Si no se parsea que escriba algo para evitar fallos
                     resultContent.append("LLMTEXTINPUT, ").append(action).append("\n");
                 }
-            } /*else if (action.startsWith("TEXT")) {
+            } else if (action.startsWith("TEXT")) {
                 String[] parts = action.split("UiSelector");
                 if (parts.length == 2) {
                     resultContent.append("TEXT, UiSelector").append(parts[1].trim()).append(", \"[VALOR]\"\n");
@@ -134,7 +134,7 @@ public class LLMButtonAppTest {
                     // Si no se parsea que escriba algo para evitar fallos
                     resultContent.append("TEXT, ").append(action).append("\n");
                 }
-            }*/
+            }
             else if (action.startsWith("BUTTON")) {
                 resultContent.append(action).append("\n");
             } else if (action.startsWith("SCROLL_DOWN")) {
