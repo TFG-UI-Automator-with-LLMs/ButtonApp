@@ -15,6 +15,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class LLMClient {
+    private static volatile String lastGeneratedValue=""; //propiedad para comprobar en la validacion en tiempo de ejecución
     // Metodo para generar la prompt y obtener los valores
     public static String generateResponse(String prompt, String apiKey) throws Exception {
         // Se usa el modelo gemini-2.0-flash, se puede cambiar a otro según se requiera.
@@ -104,9 +105,14 @@ public class LLMClient {
                 return randomObject.getString(key);
             }*/
             String randomValue = resArray.getString(randomIndex);
+            lastGeneratedValue = randomValue;
             return randomValue;
         }
         return "";
+    }
+    //metodo para recuperar el ultimo valor y comprobar en las pruebas de validacion
+    public static String getLastGeneratedValue(){
+        return lastGeneratedValue;
     }
 }
 

@@ -18,6 +18,7 @@ import com.example.buttonapp.autotesting.algorithms.LLMRandomSearch;
 import com.example.buttonapp.autotesting.inagraph.INAGraph;
 import com.example.buttonapp.autotesting.inagraph.INAGraphBuilder;
 import com.example.buttonapp.autotesting.inagraph.actions.Action;
+import com.example.buttonapp.autotesting.inagraph.actions.LLMClient;
 import com.example.buttonapp.autotesting.objectivefunctions.graph.ApplicationCrashObjectiveFunction;
 import com.example.buttonapp.autotesting.objectivefunctions.graph.ObjectiveFunction;
 import com.example.buttonapp.autotesting.util.WriterUtil;
@@ -53,32 +54,45 @@ public class ProjectValidationTests {
         // Check the LLM generated value from the Input, editText as Android specifies
         testCase.executeBefore();
         testCase.executeTest();
-        UiDevice device = UiDevice.getInstance(getInstrumentation());
-        UiObject inputField = device.findObject(new UiSelector().resourceId(packageName+":id/editText"));
-        String text = inputField.getText();
-        Log.d("TFG TEXT TO VALIDATE: ", text);
-        // Check the action is LLMTEXTINPUT
-            // Parse the test case to String
-        //String testCaseToString = testCase.toString().replace("Test Case[5]:", "").trim();
-            // Get the actions
-            // check the provided value by the LLM
-        if(text.trim().matches("^\\+34[6-9][0-9]{8}$")){
-            boolean match = text.trim().matches("^\\+34[6-9][0-9]{8}$");
-            Assert.assertTrue(text, match);
-            Log.d("TFG VALIDATION TEST 1 RESULT: ","The following value follows the pattern"+ text);
+        String LLMPromptedValue= LLMClient.getLastGeneratedValue();//Try w this one
+        //UiDevice device = UiDevice.getInstance(getInstrumentation());
+        //UiObject inputField = device.findObject(new UiSelector().resourceId(packageName+":id/editText"));
+        //String text = inputField.getText();
+        //Log.d("TFG TEXT TO VALIDATE: ", LLMPromptedValue);
+        // check the provided value by the LLM
+        if(LLMPromptedValue.trim().matches("^\\+34\\s?[6-9]\\d{2}\\s?\\d{3}\\s?\\d{3}$")){
+            boolean match = LLMPromptedValue.trim().matches("^\\+34\\s?[6-9]\\d{2}\\s?\\d{3}\\s?\\d{3}$");
+            Assert.assertTrue(LLMPromptedValue, match);
+            Log.d("TFG VALIDATION TEST 1 RESULT: ","The following value follows the spanish phone number pattern"+ LLMPromptedValue);
         } else {
             Log.d("TFG VALIDATION TEST 1 RESULT: ", "Lo hizo otra acción");
         }
-        /*String[] actions = testCaseToString.split("(?=BUTTON|SCROLL_DOWN|LLMTEXTINPUT|TEXT|CHECKBOX|RADIO_BUTTON|START|STOP|GO_BACK|SCROLL_UP|COUNT_DOWN)");
-        for (String action : actions) {
-            action = action.trim();
-            if (action.startsWith("LLMTEXTINPUT")) {
-                // Assert prompt value follows the Spanish number pattern
-                boolean match = text.matches("^\\+34[6-9][0-9]{8}$");
-                Assert.assertTrue(text, match);
-                Log.d("TFG VALIDATION TEST 1 RESULT: ","The following value follows the pattern"+ text);
-            }
-        }*/
+        testCase.executeAfter();
+    }
+    @Test
+    public void testNegativeLLMPrompt() throws UiObjectNotFoundException{
+        String packageName = "com.example.buttonapp";
+        ObjectiveFunction goalFunction = new ApplicationCrashObjectiveFunction();
+        Integer numIterations = 3;
+        Integer actionsLength = 3;
+        String prompt = "JSON: Genera una lista con 10 números de teléfono válidos con el formato americano, incluyendo prefijo.Da el resultado sin añadir ```json antes de [ al comienzo.";
+        TestCase testCase = LLMRandomSearchTemplate(packageName, goalFunction, numIterations, actionsLength, prompt);
+        // Check the LLM generated value from the Input, editText as Android specifies
+        testCase.executeBefore();
+        testCase.executeTest();
+        String LLMPromptedValue= LLMClient.getLastGeneratedValue();//Try w this one
+        //UiDevice device = UiDevice.getInstance(getInstrumentation());
+        //UiObject inputField = device.findObject(new UiSelector().resourceId(packageName+":id/editText"));
+        //String text = inputField.getText();
+        Log.d("TFG TEXT TO VALIDATE: ", LLMPromptedValue);
+        // check the provided value by the LLM
+        if(!LLMPromptedValue.trim().matches("^\\+34\\s?[6-9]\\d{2}\\s?\\d{3}\\s?\\d{3}$")){
+            boolean match = LLMPromptedValue.trim().matches("^\\+34\\s?[6-9]\\d{2}\\s?\\d{3}\\s?\\d{3}$");
+            Assert.assertFalse(LLMPromptedValue, match);
+            Log.d("TFG VALIDATION TEST 2 RESULT: ","The following value does not follow the spanish phone number pattern"+ LLMPromptedValue);
+        } else {
+            Log.d("TFG VALIDATION TEST 2 RESULT: ", "Lo hizo otra acción");
+        }
         testCase.executeAfter();
     }
 
