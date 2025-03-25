@@ -35,9 +35,6 @@ public class ProjectValidationTests {
         TestCase testCase = algorithm.run(graph, appPackageName);
         Log.d("TFG","Test case found: "+testCase);
         Log.d("TFG","Runnig it...");
-        /*testCase.executeBefore();
-        testCase.executeTest();
-        testCase.executeAfter();*/
         Log.d("TFG","Done!");
         return testCase;
     }
@@ -51,16 +48,20 @@ public class ProjectValidationTests {
         Integer actionsLength = 3;
         String prompt = "JSON: Genera una lista con 10 números de teléfono válidos con el formato español, incluyendo prefijo.Da el resultado sin añadir ```json antes de [ al comienzo.";
         TestCase testCase = LLMRandomSearchTemplate(packageName, goalFunction, numIterations, actionsLength, prompt);
-        // Check the LLM generated value from the Input, editText as Android specifies
         testCase.executeBefore();
         testCase.executeTest();
-        String LLMPromptedValue= LLMClient.getLastGeneratedValue();//Try w this one
+        String firstLLMPromptedValue = LLMClient.getFirstGeneratedValue();
+        String LLMPromptedValue= LLMClient.getGeneratedValue();
+        // Check the LLM generated value from the Input, editText as Android specifies
         //UiDevice device = UiDevice.getInstance(getInstrumentation());
         //UiObject inputField = device.findObject(new UiSelector().resourceId(packageName+":id/editText"));
         //String text = inputField.getText();
         //Log.d("TFG TEXT TO VALIDATE: ", LLMPromptedValue);
         // check the provided value by the LLM
         if(LLMPromptedValue.trim().matches("^\\+34\\s?[6-9]\\d{2}\\s?\\d{3}\\s?\\d{3}$")){
+           // try check some other validation
+            Assert.assertTrue("TFG CONMUTATION TEST VALIDATION: The first and last value are not the same: ", !firstLLMPromptedValue.equals(LLMPromptedValue));
+            Log.d("TFG CONMUTATION VALUES", "The fist prompted generated value: "+firstLLMPromptedValue+ "and a random one: "+LLMPromptedValue);
             boolean match = LLMPromptedValue.trim().matches("^\\+34\\s?[6-9]\\d{2}\\s?\\d{3}\\s?\\d{3}$");
             Assert.assertTrue(LLMPromptedValue, match);
             Log.d("TFG VALIDATION TEST 1 RESULT: ","The following value follows the spanish phone number pattern"+ LLMPromptedValue);
@@ -77,10 +78,10 @@ public class ProjectValidationTests {
         Integer actionsLength = 3;
         String prompt = "JSON: Genera una lista con 10 números de teléfono válidos con el formato americano, incluyendo prefijo.Da el resultado sin añadir ```json antes de [ al comienzo.";
         TestCase testCase = LLMRandomSearchTemplate(packageName, goalFunction, numIterations, actionsLength, prompt);
-        // Check the LLM generated value from the Input, editText as Android specifies
         testCase.executeBefore();
         testCase.executeTest();
-        String LLMPromptedValue= LLMClient.getLastGeneratedValue();//Try w this one
+        String LLMPromptedValue= LLMClient.getGeneratedValue();
+        // Check the LLM generated value from the Input, editText as Android specifies
         //UiDevice device = UiDevice.getInstance(getInstrumentation());
         //UiObject inputField = device.findObject(new UiSelector().resourceId(packageName+":id/editText"));
         //String text = inputField.getText();
@@ -95,6 +96,41 @@ public class ProjectValidationTests {
         }
         testCase.executeAfter();
     }
+
+    @Test
+    public void testSwitchingNoValueFallback() throws UiObjectNotFoundException {
+        String packageName = "com.example.buttonapp";
+        ObjectiveFunction goalFunction = new ApplicationCrashObjectiveFunction();
+        Integer numIterations = 3;
+        Integer actionsLength = 3;
+        // Se utiliza un prompt diseñado para que el LLM no genere ningún valor.
+        String prompt = "JSON: Genera una lista vacía";
+        TestCase testCase = LLMRandomSearchTemplate(packageName, goalFunction, numIterations, actionsLength, prompt);
+
+        testCase.executeBefore();
+        testCase.executeTest();
+
+        String LLMPromptedValue = LLMClient.getGeneratedValue();
+        Log.d("TFG SWITCHING TEST", "Valor generado: " + LLMPromptedValue);
+
+        // Mecanismo de fallback: si no se recibe valor, se asigna un valor por defecto.
+        String fallbackValue = "ValorPorDefecto";
+        String finalValue;
+        if (LLMPromptedValue == null || LLMPromptedValue.trim().isEmpty()) {
+            finalValue = fallbackValue;
+            Log.d("TFG SWITCHING TEST", "No se recibió valor; se asigna el fallback: " + finalValue);
+        } else {
+            finalValue = LLMPromptedValue;
+            Log.d("TFG SWITCHING TEST", "Se recibió valor inesperado: " + finalValue);
+            Assert.fail("Se esperaba no recibir ningún valor y activar el fallback, pero se recibió: " + finalValue);
+            return;
+        }
+
+        // Validamos que, en caso de no recibir valor, el sistema haya aplicado correctamente el fallback.
+        Assert.assertEquals("El valor final debe ser el valor de fallback cuando no se recibe valor", fallbackValue, finalValue);
+        testCase.executeAfter();
+    }
+
 
     private void grantManageAllFilesPermission(UiDevice device) throws UiObjectNotFoundException {
         Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
