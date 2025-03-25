@@ -38,7 +38,6 @@ public class LLMInputGenerator extends InputGenerator {
                     res = LLMClient.generateResponse(prompt, api_key);
                 }
             }
-            Log.d("TFG LLMInput", "Valor devuelto por LLM: " + res);
             object.setText(res);
 
         } catch (Exception e) {

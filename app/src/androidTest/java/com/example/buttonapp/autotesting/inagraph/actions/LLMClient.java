@@ -97,12 +97,14 @@ public class LLMClient {
         if (resArray.length()>0){
             Random random = new Random();
             int randomIndex = random.nextInt(resArray.length());
-            JSONObject randomObject = resArray.getJSONObject(randomIndex);
+            /*JSONObject randomObject = resArray.getJSONObject(randomIndex);
             Iterator<String> keys = randomObject.keys();
             if (keys.hasNext()){
                 String key = keys.next();
                 return randomObject.getString(key);
-            }
+            }*/
+            String randomValue = resArray.getString(randomIndex);
+            return randomValue;
         }
         return "";
     }
