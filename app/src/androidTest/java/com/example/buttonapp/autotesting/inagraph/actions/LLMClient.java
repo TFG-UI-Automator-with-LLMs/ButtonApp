@@ -28,7 +28,6 @@ public class LLMClient {
         connection.setReadTimeout(10000); //10 seg de timeout, esto depende de la prompt que realicemos
         connection.setDoOutput(true);
         connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-
         // Construir el cuerpo de la petición JSON, siguiente formato
         /*
         * {
@@ -99,12 +98,6 @@ public class LLMClient {
         if (resArray.length()>0){
             Random random = new Random();
             int randomIndex = random.nextInt(resArray.length());
-            /*JSONObject randomObject = resArray.getJSONObject(randomIndex);
-            Iterator<String> keys = randomObject.keys();
-            if (keys.hasNext()){
-                String key = keys.next();
-                return randomObject.getString(key);
-            }*/
             String randomValue = resArray.getString(randomIndex);
             firstGeneratedValue =resArray.getString(0);
             generatedValue = randomValue;
@@ -118,6 +111,10 @@ public class LLMClient {
     }
     public static String getFirstGeneratedValue(){
         return firstGeneratedValue;
+    }
+    public static void resetGeneratedValues(){
+        firstGeneratedValue="";
+        generatedValue="";
     }
 }
 
