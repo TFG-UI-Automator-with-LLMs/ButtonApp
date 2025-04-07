@@ -15,6 +15,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class LLMClient {
+    private static volatile String firstGeneratedValue="";
+    private static volatile String generatedValue=""; //propiedad para comprobar en la validacion en tiempo de ejecución
     // Metodo para generar la prompt y obtener los valores
     public static String generateResponse(String prompt, String apiKey) throws Exception {
         // Se usa el modelo gemini-2.0-flash, se puede cambiar a otro según se requiera.
@@ -26,7 +28,6 @@ public class LLMClient {
         connection.setReadTimeout(10000); //10 seg de timeout, esto depende de la prompt que realicemos
         connection.setDoOutput(true);
         connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-
         // Construir el cuerpo de la petición JSON, siguiente formato
         /*
         * {
@@ -97,14 +98,23 @@ public class LLMClient {
         if (resArray.length()>0){
             Random random = new Random();
             int randomIndex = random.nextInt(resArray.length());
-            JSONObject randomObject = resArray.getJSONObject(randomIndex);
-            Iterator<String> keys = randomObject.keys();
-            if (keys.hasNext()){
-                String key = keys.next();
-                return randomObject.getString(key);
-            }
+            String randomValue = resArray.getString(randomIndex);
+            firstGeneratedValue =resArray.getString(0);
+            generatedValue = randomValue;
+            return randomValue;
         }
         return "";
+    }
+    //metodo para recuperar el ultimo valor y comprobar en las pruebas de validacion
+    public static String getGeneratedValue(){
+        return generatedValue;
+    }
+    public static String getFirstGeneratedValue(){
+        return firstGeneratedValue;
+    }
+    public static void resetGeneratedValues(){
+        firstGeneratedValue="";
+        generatedValue="";
     }
 }
 
