@@ -67,7 +67,6 @@ public class LLMRandomSearch {
             candidateActions = graph.getAvailableActions();
             int selectedActionIndex = getRandom().nextInt(candidateActions.size());
             chosenAction = candidateActions.get(selectedActionIndex);
-            // Si la acción es de tipo INPUT, forzamos a que sea LLMINPUT.
             if(chosenAction.equals(Action.ActionType.TEXT)){
                 chosenAction.setValue("LLMTEXTINPUT");
             }

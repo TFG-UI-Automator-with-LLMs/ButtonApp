@@ -35,7 +35,7 @@ public class DiversitySearchTests {
     //This test use DiversitySearch algorithm with RandomActionSelection into ButtomApp 1
     @Test
     public void testButtomApp1RandomActionSelection() throws UiObjectNotFoundException {
-        String appPackageName = "com.example.testingandroid";
+        String appPackageName = "com.example.buttonapp";
         ActionSelection actionSelection=new RandomActionSelection();
         Integer iterations = 10;
         Integer diversityLength = 5;
@@ -47,7 +47,7 @@ public class DiversitySearchTests {
     //This test use DiversitySearch algorithm with IntelligentActionSelection into ButtomApp 1
     @Test
     public void testButtomApp1IntelligentActionSelection() throws UiObjectNotFoundException {
-        String appPackageName = "com.example.testingandroid";
+        String appPackageName = "com.example.buttonapp";
         ActionSelection actionSelection=new IntelligentActionSelection();
         Integer iterations = 10;
         Integer diversityLength = 5;
@@ -59,7 +59,7 @@ public class DiversitySearchTests {
     //This test use DiversitySearch algorithm with RandomActionSelection ButtomApp 2
     @Test
     public void testButtomApp2RandomActionSelection() throws UiObjectNotFoundException {
-        String appPackageName = "com.example.testingandroid2";
+        String appPackageName = "com.example.buttonapp";
         ActionSelection actionSelection=new RandomActionSelection();
         Integer iterations = 10;
         Integer diversityLength = 4;
@@ -71,7 +71,7 @@ public class DiversitySearchTests {
     //This test use DiversitySearch algorithm with IntelligentActionSelection into into ButtomApp 2
     @Test
     public void testButtomApp2IntelligentActionSelection() throws UiObjectNotFoundException {
-        String appPackageName = "com.example.testingandroid2";
+        String appPackageName = "com.example.buttonapp";
         ActionSelection actionSelection=new IntelligentActionSelection();
         Integer iterations = 10;
         Integer diversityLength = 4;
@@ -83,7 +83,8 @@ public class DiversitySearchTests {
     //This test use DiversitySearch algorithm with IntelligentActionSelection into TextInputApp
     @Test
     public void testTextInputAppRandomActionSelection() throws UiObjectNotFoundException {
-        String appPackageName = "esadrcanfer.us.alumno.textinputapp";ActionSelection actionSelection=new RandomActionSelection();
+        String appPackageName = "com.example.buttonapp";
+        ActionSelection actionSelection=new RandomActionSelection();
         Integer iterations = 3;
         Integer diversityLength = 2;
         Integer actionLength = 2;
@@ -94,7 +95,7 @@ public class DiversitySearchTests {
     //This test use DiversitySearch algorithm with IntelligentActionSelection into TextInputApp
     @Test
     public void testTextInputAppIntelligentActionSelection() throws UiObjectNotFoundException {
-        String appPackageName = "esadrcanfer.us.alumno.textinputapp";ActionSelection actionSelection=new RandomActionSelection();
+        String appPackageName = "com.example.buttonapp";ActionSelection actionSelection=new RandomActionSelection();
         Integer iterations = 3;
         Integer diversityLength = 2;
         Integer actionLength = 2;
@@ -105,7 +106,7 @@ public class DiversitySearchTests {
     //This test use DiversitySearch algorithm with RandomActionSelection into WidgetApp
     @Test
     public void testWidgetAppRandomActionSelection() throws UiObjectNotFoundException {
-        String appPackageName = "esadrcanfer.us.alumno";
+        String appPackageName = "com.example.buttonapp";
         ActionSelection actionSelection=new RandomActionSelection();
         Integer iterations = 3;
         Integer diversityLength = 2;
@@ -117,7 +118,7 @@ public class DiversitySearchTests {
     //This test use DiversitySearch algorithm with IntelligentActionSelection into WidgetApp
     @Test
     public void testWidgetAppIntelligentActionSelection() throws UiObjectNotFoundException {
-        String appPackageName = "esadrcanfer.us.alumno";
+        String appPackageName = "com.example.buttonapp";
         ActionSelection actionSelection=new IntelligentActionSelection();
         Integer iterations = 10;
         Integer diversityLength = 2;
@@ -129,7 +130,8 @@ public class DiversitySearchTests {
     ///This test use DiversitySearch algorithm with RandomActionSelection into DiversityApp
     @Test
     public void testDiversityAppRandomActionSelection() throws UiObjectNotFoundException {
-        String appPackageName = "esadrcanfer.us.diversityapp";ActionSelection actionSelection=new RandomActionSelection();
+        String appPackageName = "com.example.buttonapp";
+        ActionSelection actionSelection=new RandomActionSelection();
         Integer iterations = 30;
         Integer diversityLength = 10;
         Integer actionLength = 6;
@@ -140,7 +142,7 @@ public class DiversitySearchTests {
     //This test use DiversitySearch algorithm with IntelligentActionSelection into DiversityApp
     @Test
     public void testDiversityIntelligentActionSelection() throws UiObjectNotFoundException {
-        String appPackageName = "esadrcanfer.us.diversityapp";
+        String appPackageName = "com.example.buttonapp";
         ActionSelection actionSelection=new IntelligentActionSelection();
         Integer iterations = 30;
         Integer diversityLength = 10;

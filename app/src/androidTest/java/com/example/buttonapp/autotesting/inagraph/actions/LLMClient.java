@@ -28,20 +28,6 @@ public class LLMClient {
         connection.setReadTimeout(10000); //10 seg de timeout, esto depende de la prompt que realicemos
         connection.setDoOutput(true);
         connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-        // Construir el cuerpo de la petición JSON, siguiente formato
-        /*
-        * {
-              "contents": [
-                {
-                  "parts": [
-                    {
-                      "text": "Genera valores con campos válidos de calles de Sevilla para introducirlos en un campo de tipo Input, con 10 está bien"
-                    }
-                  ]
-                }
-              ]
-            }
-        * */
         JSONObject payload = new JSONObject();
         JSONArray contentsArray = new JSONArray();
         JSONObject contentObject = new JSONObject();

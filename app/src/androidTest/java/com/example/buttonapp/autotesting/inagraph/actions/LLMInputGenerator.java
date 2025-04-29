@@ -24,11 +24,13 @@ public class LLMInputGenerator extends InputGenerator {
                     // Obtenemos la "hint" o contentDescription del EditText
                     String hint = object.getContentDescription();
                     if (hint == null || hint.trim().isEmpty()) {
-                        hint = "Introduce algún texto sobre equipos de fubtol";
+                        hint = "Introduce algún texto aleatorio para un campo de tipo input";
                     }
                     // En caso de no dar prompt y ejecutarse LLMINPUTTEXT como accion
                     String hintBasedPrompt =
-                            "JSON: Genera una lista de 10 ejemplos basados en la pista: \"" +
+                            "JSON: Genera datos para este campo donde puedes introducir información variada, basándote en el contenido de la pista; " +
+                                    "en caso de no tener, genera valores útiles para un escenario de pruebas para un campo donde esa información puede ser tan variada como se te ocurra en caso de no tener pista, " +
+                                    "así que genera una lista de 10 ejemplos: \"" +
                                     hint +
                                     "\". Da el resultado sin añadir ```json antes de [ al comienzo.";
                     res = LLMClient.generateResponse(hintBasedPrompt, api_key);
