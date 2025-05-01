@@ -23,9 +23,8 @@ public class DiversitySearchTests {
     //Template for test DiversitySearch algorithm
     private void diversitySearchTestTemplate(String appPackageName, ActionSelection actionSelection,
                                              Integer iterations, Integer diversityLength, Integer actionsLength,
-                                             Boolean saveAllTestCases) throws UiObjectNotFoundException {
+                                             Boolean saveAllTestCases, String prompt) throws UiObjectNotFoundException {
         UiDevice mDevice = UiDevice.getInstance(getInstrumentation());
-        String prompt = null;
         DiversitySearch algorithm=new DiversitySearch(actionSelection, iterations, diversityLength,
                 actionsLength, appPackageName, saveAllTestCases, prompt);
         List<TestCase> testCases=algorithm.run(mDevice, appPackageName);
@@ -41,7 +40,7 @@ public class DiversitySearchTests {
         Integer diversityLength = 5;
         Integer actionLength = 1;
         Boolean saveAllTestCases = false;
-        diversitySearchTestTemplate(appPackageName, actionSelection, iterations, diversityLength, actionLength, saveAllTestCases);
+        diversitySearchTestTemplate(appPackageName, actionSelection, iterations, diversityLength, actionLength, saveAllTestCases, "");
     }
 
     //This test use DiversitySearch algorithm with IntelligentActionSelection into ButtomApp 1
@@ -53,7 +52,7 @@ public class DiversitySearchTests {
         Integer diversityLength = 5;
         Integer actionLength = 1;
         Boolean saveAllTestCases = false;
-        diversitySearchTestTemplate(appPackageName, actionSelection, iterations, diversityLength, actionLength, saveAllTestCases);
+        diversitySearchTestTemplate(appPackageName, actionSelection, iterations, diversityLength, actionLength, saveAllTestCases, "");
     }
 
     //This test use DiversitySearch algorithm with RandomActionSelection ButtomApp 2
@@ -65,7 +64,7 @@ public class DiversitySearchTests {
         Integer diversityLength = 4;
         Integer actionLength = 2;
         Boolean saveAllTestCases = false;
-        diversitySearchTestTemplate(appPackageName, actionSelection, iterations, diversityLength, actionLength, saveAllTestCases);
+        diversitySearchTestTemplate(appPackageName, actionSelection, iterations, diversityLength, actionLength, saveAllTestCases, "");
     }
 
     //This test use DiversitySearch algorithm with IntelligentActionSelection into into ButtomApp 2
@@ -77,7 +76,7 @@ public class DiversitySearchTests {
         Integer diversityLength = 4;
         Integer actionLength = 2;
         Boolean saveAllTestCases = false;
-        diversitySearchTestTemplate(appPackageName, actionSelection, iterations, diversityLength, actionLength, saveAllTestCases);
+        diversitySearchTestTemplate(appPackageName, actionSelection, iterations, diversityLength, actionLength, saveAllTestCases, "");
     }
 
     //This test use DiversitySearch algorithm with IntelligentActionSelection into TextInputApp
@@ -89,7 +88,7 @@ public class DiversitySearchTests {
         Integer diversityLength = 2;
         Integer actionLength = 2;
         Boolean saveAllTestCases = false;
-        diversitySearchTestTemplate(appPackageName, actionSelection, iterations, diversityLength, actionLength, saveAllTestCases);
+        diversitySearchTestTemplate(appPackageName, actionSelection, iterations, diversityLength, actionLength, saveAllTestCases, "");
     }
 
     //This test use DiversitySearch algorithm with IntelligentActionSelection into TextInputApp
@@ -100,7 +99,7 @@ public class DiversitySearchTests {
         Integer diversityLength = 2;
         Integer actionLength = 2;
         Boolean saveAllTestCases = false;
-        diversitySearchTestTemplate(appPackageName, actionSelection, iterations, diversityLength, actionLength, saveAllTestCases);
+        diversitySearchTestTemplate(appPackageName, actionSelection, iterations, diversityLength, actionLength, saveAllTestCases, "");
     }
 
     //This test use DiversitySearch algorithm with RandomActionSelection into WidgetApp
@@ -112,7 +111,7 @@ public class DiversitySearchTests {
         Integer diversityLength = 2;
         Integer actionLength = 2;
         Boolean saveAllTestCases = false;
-        diversitySearchTestTemplate(appPackageName, actionSelection, iterations, diversityLength, actionLength, saveAllTestCases);
+        diversitySearchTestTemplate(appPackageName, actionSelection, iterations, diversityLength, actionLength, saveAllTestCases, "");
     }
 
     //This test use DiversitySearch algorithm with IntelligentActionSelection into WidgetApp
@@ -124,7 +123,7 @@ public class DiversitySearchTests {
         Integer diversityLength = 2;
         Integer actionLength = 2;
         Boolean saveAllTestCases = false;
-        diversitySearchTestTemplate(appPackageName, actionSelection, iterations, diversityLength, actionLength, saveAllTestCases);
+        diversitySearchTestTemplate(appPackageName, actionSelection, iterations, diversityLength, actionLength, saveAllTestCases, "");
     }
 
     ///This test use DiversitySearch algorithm with RandomActionSelection into DiversityApp
@@ -136,7 +135,7 @@ public class DiversitySearchTests {
         Integer diversityLength = 10;
         Integer actionLength = 6;
         Boolean saveAllTestCases = false;
-        diversitySearchTestTemplate(appPackageName, actionSelection, iterations, diversityLength, actionLength, saveAllTestCases);
+        diversitySearchTestTemplate(appPackageName, actionSelection, iterations, diversityLength, actionLength, saveAllTestCases, "");
     }
 
     //This test use DiversitySearch algorithm with IntelligentActionSelection into DiversityApp
@@ -148,6 +147,6 @@ public class DiversitySearchTests {
         Integer diversityLength = 10;
         Integer actionLength = 6;
         Boolean saveAllTestCases = false;
-        diversitySearchTestTemplate(appPackageName, actionSelection, iterations, diversityLength, actionLength, saveAllTestCases);
+        diversitySearchTestTemplate(appPackageName, actionSelection, iterations, diversityLength, actionLength, saveAllTestCases, "");
     }
 }

@@ -21,9 +21,8 @@ public class DynamicRandomSearchTests {
     //Template for test DynamicRandomSearch algorithm
     private void dynamicRandomSearchTestTemplate(String appPackageName, DynamicObjectiveFunction objective,
                                                  Integer iterations, Integer actionsLength,
-                                                 Boolean saveAllTestCases) throws UiObjectNotFoundException {
+                                                 Boolean saveAllTestCases, String prompt) throws UiObjectNotFoundException {
         UiDevice mDevice = UiDevice.getInstance(getInstrumentation());
-        String prompt = null;
         DynamicRandomSearch algorithm = new DynamicRandomSearch(objective, iterations, actionsLength, appPackageName, saveAllTestCases, prompt);
         TestCase testCase = algorithm.run(mDevice, appPackageName);
         Log.d("TFG", "Test case found: " + testCase);
@@ -42,7 +41,7 @@ public class DynamicRandomSearchTests {
         Integer iterations = 10;
         Integer actionLength = 3;
         Boolean saveAllTestCases = false;
-        dynamicRandomSearchTestTemplate(appPackageName, objective, iterations, actionLength, saveAllTestCases);
+        dynamicRandomSearchTestTemplate(appPackageName, objective, iterations, actionLength, saveAllTestCases, "");
     }
 
     //This test use DynamicRandomSearch algorithm with DynamicMaxExecutionTimeObjetiveFunction into ButtomApp 1
@@ -53,7 +52,7 @@ public class DynamicRandomSearchTests {
         Integer iterations = 40;
         Integer actionLength = 2;
         Boolean saveAllTestCases = false;
-        dynamicRandomSearchTestTemplate(appPackageName, objective, iterations, actionLength, saveAllTestCases);
+        dynamicRandomSearchTestTemplate(appPackageName, objective, iterations, actionLength, saveAllTestCases, "");
 
     }
 
@@ -65,7 +64,7 @@ public class DynamicRandomSearchTests {
         Integer iterations = 10;
         Integer actionLength = 2;
         Boolean saveAllTestCases = false;
-        dynamicRandomSearchTestTemplate(appPackageName, objective, iterations, actionLength, saveAllTestCases);
+        dynamicRandomSearchTestTemplate(appPackageName, objective, iterations, actionLength, saveAllTestCases, "");
     }
 
     //This test use DynamicRandomSearch algorithm with DynamicMaxExecutionTimeObjetiveFunction into ButtomApp 2
@@ -76,7 +75,7 @@ public class DynamicRandomSearchTests {
         Integer iterations = 10;
         Integer actionLength = 2;
         Boolean saveAllTestCases = false;
-        dynamicRandomSearchTestTemplate(appPackageName, objective, iterations, actionLength, saveAllTestCases);
+        dynamicRandomSearchTestTemplate(appPackageName, objective, iterations, actionLength, saveAllTestCases, "");
     }
 
     //This test use DynamicRandomSearch algorithm with DynamicApplicationCrashObjetiveFunction into TextInputApp
@@ -87,7 +86,7 @@ public class DynamicRandomSearchTests {
         Integer iterations = 10;
         Integer actionLength = 2;
         Boolean saveAllTestCases = false;
-        dynamicRandomSearchTestTemplate(appPackageName, objective, iterations, actionLength, saveAllTestCases);
+        dynamicRandomSearchTestTemplate(appPackageName, objective, iterations, actionLength, saveAllTestCases, "");
     }
 
     //This test use DynamicRandomSearch algorithm with DynamicMaxExecutionTimeObjetiveFunction into TextInputApp
@@ -98,7 +97,7 @@ public class DynamicRandomSearchTests {
         Integer iterations = 10;
         Integer actionLength = 2;
         Boolean saveAllTestCases = false;
-        dynamicRandomSearchTestTemplate(appPackageName, objective, iterations, actionLength, saveAllTestCases);
+        dynamicRandomSearchTestTemplate(appPackageName, objective, iterations, actionLength, saveAllTestCases, "");
     }
 
     //This test use DynamicRandomSearch algorithm with DynamicApplicationCrashObjetiveFunction into WidgetApp
@@ -109,7 +108,7 @@ public class DynamicRandomSearchTests {
         Integer iterations = 10;
         Integer actionLength = 2;
         Boolean saveAllTestCases = false;
-        dynamicRandomSearchTestTemplate(appPackageName, objective, iterations, actionLength, saveAllTestCases);
+        dynamicRandomSearchTestTemplate(appPackageName, objective, iterations, actionLength, saveAllTestCases, "");
     }
 
     //This test use DynamicRandomSearch algorithm with DynamicMaxExecutionTimeObjetiveFunction into WidgetApp
@@ -120,7 +119,7 @@ public class DynamicRandomSearchTests {
         Integer iterations = 10;
         Integer actionLength = 2;
         Boolean saveAllTestCases = false;
-        dynamicRandomSearchTestTemplate(appPackageName, objective, iterations, actionLength, saveAllTestCases);
+        dynamicRandomSearchTestTemplate(appPackageName, objective, iterations, actionLength, saveAllTestCases, "");
     }
 
     //This test use DynamicRandomSearch algorithm with DynamicApplicationCrashObjetiveFunction into DiversityApp
@@ -131,7 +130,7 @@ public class DynamicRandomSearchTests {
         Integer iterations = 10;
         Integer actionLength = 2;
         Boolean saveAllTestCases = false;
-        dynamicRandomSearchTestTemplate(appPackageName, objective, iterations, actionLength, saveAllTestCases);
+        dynamicRandomSearchTestTemplate(appPackageName, objective, iterations, actionLength, saveAllTestCases, "");
     }
 
     //This test use DynamicRandomSearch algorithm with DynamicMaxExecutionTimeObjetiveFunction into DiversityApp
@@ -142,7 +141,7 @@ public class DynamicRandomSearchTests {
         Integer iterations = 10;
         Integer actionLength = 2;
         Boolean saveAllTestCases = false;
-        dynamicRandomSearchTestTemplate(appPackageName, objective, iterations, actionLength, saveAllTestCases);
+        dynamicRandomSearchTestTemplate(appPackageName, objective, iterations, actionLength, saveAllTestCases, "");
     }
 
 

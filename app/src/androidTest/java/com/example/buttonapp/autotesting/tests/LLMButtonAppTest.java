@@ -42,8 +42,6 @@ public class LLMButtonAppTest {
     public void testSimpleAppCrash() throws UiObjectNotFoundException{
         String appPackageName = "com.example.buttonapp";
         String prompt = "JSON: Genera una lista con 10 direcciones de prueba de calles reales en Sevilla para un campo de tipo Input. Cada dirección debe incluir el nombre de la calle y el número. Da el resultado sin añadir ```json antes de [ al comienzo.";
-        //Remove comment when generic prompt with hint developed, also try it in another test
-        //String emptyPrompt = "";
         ObjectiveFunction goalFunction = new ApplicationCrashObjectiveFunction();
         Integer numIterations = 4;
         Integer actionsLength = 4;

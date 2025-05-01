@@ -20,9 +20,8 @@ import org.junit.Test;
 public class RandomSearchTests {
 
     //Template for test RandomSearch algorithm
-    private void randomSearchTestTemplate(String appPackageName, ObjectiveFunction objective, Integer iterations, Integer actionsLength) throws UiObjectNotFoundException {
+    private void randomSearchTestTemplate(String appPackageName, ObjectiveFunction objective, Integer iterations, Integer actionsLength, String prompt) throws UiObjectNotFoundException {
         UiDevice mDevice = UiDevice.getInstance(getInstrumentation());
-        String prompt=null;
         INAGraph graph= INAGraphBuilder.getInstance().build(mDevice,appPackageName,prompt);
         RandomSearch algorithm=new RandomSearch(objective,iterations,actionsLength);
         TestCase testCase=algorithm.run(graph,appPackageName);
@@ -41,7 +40,7 @@ public class RandomSearchTests {
         ObjectiveFunction objective=new ApplicationCrashObjectiveFunction();
         Integer iterations = 10;
         Integer actionLength = 2;
-        randomSearchTestTemplate(appPackageName, objective, iterations, actionLength);
+        randomSearchTestTemplate(appPackageName, objective, iterations, actionLength, "");
     }
 
     //This test use RandomSearch algorithm with MaxExecutionTimeObjetiveFunction into ButtomApp 1
@@ -51,7 +50,7 @@ public class RandomSearchTests {
         ObjectiveFunction objective=new TestExecutionTimeObjectiveFunction();
         Integer iterations = 10;
         Integer actionLength = 2;
-        randomSearchTestTemplate(appPackageName, objective, iterations, actionLength);
+        randomSearchTestTemplate(appPackageName, objective, iterations, actionLength, "");
     }
 
     //This test use RandomSearch algorithm with ApplicationCrashObjetiveFunction into ButtomApp 2
@@ -61,7 +60,7 @@ public class RandomSearchTests {
         ObjectiveFunction objective=new ApplicationCrashObjectiveFunction();
         Integer iterations = 10;
         Integer actionLength = 2;
-        randomSearchTestTemplate(appPackageName, objective, iterations, actionLength);
+        randomSearchTestTemplate(appPackageName, objective, iterations, actionLength, "");
     }
 
     //This test use RandomSearch algorithm with MaxExecutionTimeObjetiveFunction into ButtomApp 2
@@ -71,7 +70,7 @@ public class RandomSearchTests {
         ObjectiveFunction objective=new TestExecutionTimeObjectiveFunction();
         Integer iterations = 10;
         Integer actionLength = 2;
-        randomSearchTestTemplate(appPackageName, objective, iterations, actionLength);
+        randomSearchTestTemplate(appPackageName, objective, iterations, actionLength, "");
     }
 
     //This test use RandomSearch algorithm with ApplicationCrashObjetiveFunction into TextInputApp
@@ -81,7 +80,7 @@ public class RandomSearchTests {
         ObjectiveFunction objective=new ApplicationCrashObjectiveFunction();
         Integer iterations = 10;
         Integer actionLength = 2;
-        randomSearchTestTemplate(appPackageName, objective, iterations, actionLength);
+        randomSearchTestTemplate(appPackageName, objective, iterations, actionLength, "");
     }
 
     //This test use RandomSearch algorithm with MaxExecutionTimeObjetiveFunction into TextInputApp
@@ -91,7 +90,7 @@ public class RandomSearchTests {
         ObjectiveFunction objective=new TestExecutionTimeObjectiveFunction();
         Integer iterations = 10;
         Integer actionLength = 2;
-        randomSearchTestTemplate(appPackageName, objective, iterations, actionLength);
+        randomSearchTestTemplate(appPackageName, objective, iterations, actionLength, "");
     }
 
     //This test use RandomSearch algorithm with ApplicationCrashObjetiveFunction into WidgetApp
@@ -101,7 +100,7 @@ public class RandomSearchTests {
         ObjectiveFunction objective=new ApplicationCrashObjectiveFunction();
         Integer iterations = 10;
         Integer actionLength = 2;
-        randomSearchTestTemplate(appPackageName, objective, iterations, actionLength);
+        randomSearchTestTemplate(appPackageName, objective, iterations, actionLength, "");
     }
 
     //This test use RandomSearch algorithm with MaxExecutionTimeObjetiveFunction into WidgetApp
@@ -111,7 +110,7 @@ public class RandomSearchTests {
         ObjectiveFunction objective=new TestExecutionTimeObjectiveFunction();
         Integer iterations = 10;
         Integer actionLength = 2;
-        randomSearchTestTemplate(appPackageName, objective, iterations, actionLength);
+        randomSearchTestTemplate(appPackageName, objective, iterations, actionLength, "");
     }
 
     //This test use RandomSearch algorithm with ApplicationCrashObjetiveFunction into DiversityApp
@@ -121,7 +120,7 @@ public class RandomSearchTests {
         ObjectiveFunction objective=new ApplicationCrashObjectiveFunction();
         Integer iterations = 10;
         Integer actionLength = 2;
-        randomSearchTestTemplate(appPackageName, objective, iterations, actionLength);
+        randomSearchTestTemplate(appPackageName, objective, iterations, actionLength, "");
     }
 
     //This test use RandomSearch algorithm with MaxExecutionTimeObjetiveFunction into DiversityApp
@@ -131,7 +130,7 @@ public class RandomSearchTests {
         ObjectiveFunction objective=new TestExecutionTimeObjectiveFunction();
         Integer iterations = 10;
         Integer actionLength = 2;
-        randomSearchTestTemplate(appPackageName, objective, iterations, actionLength);
+        randomSearchTestTemplate(appPackageName, objective, iterations, actionLength, "");
     }
 
 
