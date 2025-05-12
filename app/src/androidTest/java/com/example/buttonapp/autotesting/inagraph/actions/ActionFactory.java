@@ -25,8 +25,6 @@ public class ActionFactory {
     }
 
     public static Map<UiObject, Action> createLLMInputActions(UiDevice device, Long seed, String prompt) {
-        //String value = "Genera valores con campos válidos de calles de Sevilla para introducirlos en un campo de tipo Input, con 20 valores está bien. Simplemente di el nombre de las calles.";
-        //String value = "JSON: Genera una lista con 10 direcciones de prueba de calles reales en Sevilla para un campo de tipo Input. Cada dirección debe incluir el nombre de la calle y el número. Da el resultado sin añadir ```json antes de [ al comienzo.";
         LLMInputGenerator generator = new LLMInputGenerator(seed, prompt);
         List<UiObject> inputTexts = ElementIdentifier.findElements(device, "android.widget.EditText");
         Map<UiObject, Action> result = new HashMap<>();
